@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -6,6 +7,7 @@ import authRoutes from "./routes/auth.routes";
 import documentRoutes from "./routes/document.routes";
 import sanctionRoutes from "./routes/sanction.routes";
 import uploadRoutes from "./routes/upload.routes";
+import adminRoutes from "./routes/admin.routes";
 import path from "path";
 
 
@@ -23,7 +25,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: process.env.CORS_ORIGIN || "http://localhost:3000",
     credentials: true,
   })
 );
@@ -37,5 +39,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api", uploadRoutes);
 app.use("/api/documents", documentRoutes);
 app.use("/api/sanctions", sanctionRoutes);
+app.use("/api/admin", adminRoutes);
 
 export default app;

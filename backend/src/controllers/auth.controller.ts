@@ -38,9 +38,11 @@ export const register = async (req: Request, res: Response) => {
   });
 
   res.status(201).json({
-    id: user.id,
-    email: user.email,
-    role: user.role,
+    user: {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    },
   });
 };
 
@@ -72,7 +74,10 @@ export const login = async (req: Request, res: Response) => {
 
   res.json({
     message: "Login successful",
-    email: user.email,
-    role: user.role,
+    user: {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    },
   });
 };

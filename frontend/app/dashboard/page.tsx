@@ -43,73 +43,83 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white p-8 max-w-4xl mx-auto">
-      {/* HEADER */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-black">
-          Document Dashboard
-        </h1>
-        <p className="text-base font-medium text-black mt-2">
-          All your uploaded documents appear below in order
-        </p>
-      </div>
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 p-8">
+      <div className="max-w-6xl mx-auto">
+        {/* HEADER */}
+        <div className="mb-8 bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-4xl font-bold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                Document Dashboard
+              </h1>
+              <p className="text-gray-600 font-medium">
+                All your uploaded documents appear below in order
+              </p>
+            </div>
+            <Link
+              href="/documents/upload"
+              className="px-6 py-3 bg-linear-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+            >
+              + Upload New Document
+            </Link>
+          </div>
+        </div>
 
-      {/* UPLOAD BUTTON */}
-      <div className="mb-10">
-        <Link
-          href="/documents/upload"
-          className="inline-block px-6 py-3 bg-black text-white font-semibold rounded-lg hover:bg-blue-600 transition"
-        >
-          Upload New Document
-        </Link>
-      </div>
-
-      {/* EMPTY STATE */}
-      {documents.length === 0 ? (
-        <div className="border-2 border-black rounded-lg p-10 text-center">
-          <h2 className="text-xl font-bold text-black mb-3">
+        {/* EMPTY STATE */}
+        {documents.length === 0 ? (
+          <div className="bg-linear-to-br from-blue-50 to-purple-50 border-2 border-blue-200 rounded-2xl p-12 text-center shadow-lg">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-linear-to-br from-blue-500 to-purple-600 rounded-2xl mb-6">
+            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-3">
             No documents uploaded yet
           </h2>
-          <p className="text-base font-medium text-black mb-6">
+          <p className="text-gray-600 font-medium mb-6">
             Upload a document to start risk and sanction analysis
           </p>
           <Link
             href="/documents/upload"
-            className="px-6 py-3 bg-black text-white font-semibold rounded-lg hover:bg-blue-600 transition"
+            className="inline-block px-8 py-3 bg-linear-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
           >
             Upload Document
           </Link>
-        </div>
-      ) : (
-        /* COLUMN-WISE DOCUMENT LIST */
-        <div className="flex flex-col gap-6">
+          </div>
+        ) : (
+          /* DOCUMENT LIST */
+          <div className="grid gap-6">
           {documents.map((doc) => (
             <div
               key={doc.id}
-              className="border-2 border-black rounded-lg p-6 bg-white hover:shadow-lg transition"
+              className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
             >
-              <div className="mb-2">
-                <h2 className="text-xl font-bold text-black">
-                  {doc.title}
-                </h2>
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">
+                    {doc.title}
+                  </h2>
+                  <p className="text-gray-600 font-medium mt-2">
+                    {doc.content}
+                  </p>
+                </div>
               </div>
 
-              <p className="text-base font-medium text-black mb-4">
-                {doc.content}
-              </p>
-
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-semibold text-black">
-                  Document ID: {doc.id}
-                </span>
-                <span className="text-sm font-semibold text-black">
-                  {new Date(doc.createdAt).toLocaleDateString()}
-                </span>
+              <div className="flex justify-between items-center pt-4 border-t border-gray-100">
+                <div className="flex items-center space-x-4">
+                  <span className="px-4 py-2 bg-linear-to-r from-blue-100 to-purple-100 text-blue-700 rounded-full text-sm font-bold">
+                    ID: {doc.id}
+                  </span>
+                  <span className="text-sm font-semibold text-gray-500">
+                    {new Date(doc.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
               </div>
             </div>
           ))}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
