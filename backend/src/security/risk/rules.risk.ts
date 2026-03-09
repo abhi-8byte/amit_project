@@ -11,7 +11,7 @@ export const evaluateRules = (input: RiskInput) => {
     reasons.push("Missing or suspicious user agent");
   }
 
-  // ✅ Document intelligence rules
+  // ✅ Enhanced Document intelligence rules
   if (input.documentIntelligence?.isDummy) {
     score += RISK_WEIGHTS.INVALID_DOCUMENT;
     reasons.push("Dummy or meaningless document detected");
@@ -20,6 +20,33 @@ export const evaluateRules = (input: RiskInput) => {
   if (input.documentIntelligence?.suspectedForgery) {
     score += RISK_WEIGHTS.FORGED_DOCUMENT;
     reasons.push("Possible forged document");
+  }
+
+  // ✅ NEW: Content analysis
+  if (input.documentIntelligence?.wordCount && input.documentIntelligence.wordCount < 10) {
+    score += 20;
+    reasons.push("Document content too short or empty");
+  }
+
+  if (input.documentIntelligence?.containsSensitive) {
+    score += 30;
+    reasons.push("Contains sensitive or restricted keywords");
+  }
+
+  if (input.documentIntelligence?.isBlurry) {
+    score += 25;
+    reasons.push("Image quality too low or blurry");
+  }
+
+  // ✅ NEW: Behavioral patterns
+  if (input.rapidUploads) {
+    score += RISK_WEIGHTS.RAPID_REQUESTS;
+    reasons.push("Unusual upload frequency detected");
+  }
+
+  if (input.multipleFailures) {
+    score += RISK_WEIGHTS.MULTIPLE_FAILURES;
+    reasons.push("Multiple failed verification attempts");
   }
 
   return { score, reasons };

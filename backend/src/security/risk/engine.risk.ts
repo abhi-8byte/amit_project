@@ -8,10 +8,23 @@ export const calculateRiskScore = (
   const { score, reasons } = evaluateRules(input);
   const cappedScore = Math.min(score, 100);
 
+  // ✅ More accurate risk level determination
   let level: RiskResult["level"] = "LOW";
-  if (cappedScore >= THRESHOLDS.HIGH) level = "CRITICAL";
-  else if (cappedScore >= THRESHOLDS.MEDIUM) level = "HIGH";
-  else if (cappedScore >= THRESHOLDS.SAFE) level = "MEDIUM";
+  let verdict: "APPROVE" | "REVIEW" | "REJECT" = "APPROVE";
 
-  return { score: cappedScore, reasons, level };
+  if (cappedScore >= 70) {
+    level = "CRITICAL";
+    verdict = "REJECT";
+  } else if (cappedScore >= 50) {
+    level = "HIGH";
+    verdict = "REJECT";
+  } else if (cappedScore >= 30) {
+    level = "MEDIUM";
+    verdict = "REVIEW";
+  } else {
+    level = "LOW";
+    verdict = "APPROVE";
+  }
+
+  return { score: cappedScore, reasons, level, verdict };
 };
