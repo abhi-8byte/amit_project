@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import api from "@/utils/api";
 
 type RiskSnapshot = {
   riskScore: number;
@@ -26,13 +27,8 @@ export default function SanctionsPage() {
 
   useEffect(() => {
     const fetchQueue = async () => {
-      const res = await fetch(
-        "http://localhost:5000/api/sanctions/queue",
-        { credentials: "include" }
-      );
-
-      const data = await res.json();
-      setDocuments(data);
+      const res = await api.get("/sanctions/queue");
+      setDocuments(res.data);
       setLoading(false);
     };
 
@@ -45,18 +41,10 @@ export default function SanctionsPage() {
   ) => {
     setActionLoading(documentId);
 
-    await fetch(
-      `http://localhost:5000/api/sanctions/documents/${documentId}/decision`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          decision,
-          reason: "Manual sanction manager decision",
-        }),
-      }
-    );
+    await api.post(`/sanctions/documents/${documentId}/decision`, {
+      decision,
+      reason: "Manual sanction manager decision",
+    });
 
     setActionLoading(null);
     alert(`Document ${decision}`);
@@ -115,11 +103,10 @@ export default function SanctionsPage() {
 
           {/* Actions */}
           <div className="mt-6 flex flex-col gap-4">
-            {/* ✅ SECURE DOWNLOAD */}
             <button
               onClick={() =>
                 window.open(
-                  `http://localhost:5000/api/documents/${doc.id}/download`,
+                  `${process.env.NEXT_PUBLIC_API_URL}/documents/${doc.id}/download`,
                   "_blank"
                 )
               }
@@ -128,7 +115,6 @@ export default function SanctionsPage() {
               📥 Download Document
             </button>
 
-            {/* Decision Buttons */}
             <div className="flex gap-4">
               <button
                 disabled={actionLoading === doc.id}
