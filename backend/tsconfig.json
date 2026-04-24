@@ -10,15 +10,6 @@
     "rootDir": "src",
     "outDir": "dist",
 
-    /* ===== Absolute Imports (IMPORTANT) ===== */
-    "ignoreDeprecations": "6.0",
-    "baseUrl": "src",
-    "paths": {
-      "@security/*": ["security/*"],
-      "@lib/*": ["lib/*"],
-      "@config/*": ["config/*"]
-    },
-
     /* ===== Type Safety ===== */
     "types": ["node"],
     "strict": true,
