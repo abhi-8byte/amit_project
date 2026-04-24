@@ -29,11 +29,11 @@ export const register = async (req: Request, res: Response) => {
     { expiresIn: "15m" }
   );
 
-  // ✅ SET COOKIE
+  const isProd = process.env.NODE_ENV === "production";
   res.cookie("token", token, {
     httpOnly: true,
-    secure: false, // local dev
-    sameSite: "lax",
+    secure: isProd,
+    sameSite: isProd ? "none" : "lax",
     maxAge: 15 * 60 * 1000,
   });
 
@@ -65,10 +65,11 @@ export const login = async (req: Request, res: Response) => {
     { expiresIn: "15m" }
   );
 
+  const isProd = process.env.NODE_ENV === "production";
   res.cookie("token", token, {
     httpOnly: true,
-    secure: false, // local dev
-    sameSite: "lax",
+    secure: isProd,
+    sameSite: isProd ? "none" : "lax",
     maxAge: 15 * 60 * 1000,
   });
 
