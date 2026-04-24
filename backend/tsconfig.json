@@ -11,6 +11,7 @@
     "outDir": "dist",
 
     /* ===== Absolute Imports (IMPORTANT) ===== */
+    "ignoreDeprecations": "5.0",
     "baseUrl": "src",
     "paths": {
       "@security/*": ["security/*"],
