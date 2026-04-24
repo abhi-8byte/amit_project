@@ -20,6 +20,7 @@
     },
 
     /* ===== Type Safety ===== */
+    "types": ["node"],
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
